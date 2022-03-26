@@ -1,4 +1,4 @@
-const users = require('../data/users.json')
+let users = require('../data/users.json')
 const { v4: uuidv4} = require('uuid')
 const { writeDataToFile} = require('../utils')
 
@@ -24,8 +24,17 @@ function create(user) {
     })
 }
 
+function removeUser(id) {
+    return new Promise((resolve, reject) => {
+        users = users.filter((u) => u.id !== id)
+        writeDataToFile('./data/users.json', users)
+        resolve()
+    })
+}
+
 module.exports = {
     findAllUsers,
     findUser,
-    create
+    create,
+    removeUser
 }

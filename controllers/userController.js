@@ -43,8 +43,27 @@ async function createUser(req, res) {
     }
 }
 
+async function deleteUser(req, res, id) {
+    try {
+        const user = await UserModel.findUser(id)
+        if(!user) {
+            res.writeHead(404, {"Content-Type": "application/json"})
+            res.end(JSON.stringify({"message": "User Not Found"}))
+        }
+        else {
+            await UserModel.removeUser(id)
+            const users = await UserModel.findAllUsers()
+            res.writeHead(200, {"Content-Type": "application/json"})
+            res.end(JSON.stringify(users))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     getUsers,
     getUser,
-    createUser
+    createUser,
+    deleteUser
 }

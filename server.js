@@ -9,6 +9,10 @@ const server = http.createServer((req, res) => {
         const id = req.url.split('/')[3]
         UserContoller.getUser(req, res, id)
     }
+    else if(req.method === 'DELETE' && req.url.match(/\/api\/users\/\w+/)) {
+        const id = req.url.split('/')[3]
+        UserContoller.deleteUser(req, res, id)
+    }
     else if(req.method === 'POST' && req.url === '/api/users') {
         UserContoller.createUser(req, res)
     }
